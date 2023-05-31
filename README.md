@@ -1,11 +1,13 @@
 # Stock Prediction Neural Network
-Neural network with a data acquisition script that predicts the stock prices of NIS company using technical indicators
+This project provides a neural network model and a data acquisition script for predicting the daily minimum and maximum stock prices of the NIS company based on a set of historical technical indicators. 
+The data acquisition script loads the historical stock data, preprocesses it to calculate the technical indicators, and organizes the data into a format suitable for input to the neural network. The script also includes a normalization step to ensure that all input variables are on a comparable scale, which can improve the network's performance.
+This project offers a practical application of machine learning for financial time series forecasting, and serves as a starting point for those interested in applying similar techniques to other stocks or financial instruments.
 
 ## Up to date stock information can be found on the following link
 *Beogradska berza NIIS* [here](https://www.belex.rs/trgovanje/istorijski/NIIS) 
 
 ## Network Information
-----------
+
 ### Input and Output
 - The input to the network is a 10-dimensional vector that represents different technical aspects of the stock's historical data including moving averages, momentum, stochastic oscillators, commodity channel index (CCI), Larry William's R%, and moving average convergence divergence (MACD).
 
@@ -29,3 +31,6 @@ Neural network with a data acquisition script that predicts the stock prices of 
   - 10% for validation
   - 10% for testing
 - Regularization is used during the training to avoid overfitting, with a regularization parameter set at 0.5.
+
+## Visualization
+- The performance of the network during training can be visualized using various plots (uncomment the corresponding lines in the code to generate these plots). These plots help to understand the performance, training state, error distribution, and fitness of the network.
