@@ -19,6 +19,17 @@ net.divideParam.trainRatio = 80/100;
 net.divideParam.valRatio = 10/100;
 net.divideParam.testRatio = 10/100;
 
+% Activation functions %
+net.layers{1}.transferFcn = 'tansig';
+net.layers{2}.transferFcn = 'elliotsig';
+
+
+% Set the maximum number of epochs
+net.trainParam.epochs = 1500;
+
+% Set the maximum Mu value
+net.trainParam.mu_max = 1e12;
+
 % Train the Network
 [net,tr] = train(net,x,t);
 
@@ -61,13 +72,6 @@ fclose(fileID);
 
 % View the Network
 view(net)
-
-% Regularization %
-net.performParam.regularization = 0.5;
-
-% Activation functions %
-net.layers{1}.transferFcn = 'tansig';
-net.layers{2}.transferFcn = 'elliotsig';
 
 % Plots
 %figure, plotperform(tr)
