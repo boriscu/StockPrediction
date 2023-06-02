@@ -12,10 +12,6 @@ promet = nis_data(:, 4)';
 open = nis_data(:, 5)';
 dnevna_min = nis_data(:, 6)';
 dnevna_max = nis_data(:, 7)';
-vwap = nis_data(:, 8)';
-ukupna_ponuda = nis_data(:,9)';
-ukupna_traznja = nis_data(:,10)';
-broj_transakcija = nis_data(:,9)';
 
 for i = valid_interval
     target(1, i) = max(dnevna_max(i-future_days+1:i)); % maximum price for the next 5 days
@@ -96,7 +92,7 @@ end
 macd_hist = macd_line - signal_line;
 inputs(8, :) = macd_hist;
 
-predict_value = inputs(:,1:future_days);
+predict_value = inputs(:,1:1);
 inputs = inputs(:, (future_days+1):(velicina-10));
 target = target(:, (future_days+1):(velicina-10));
 
