@@ -1,8 +1,9 @@
 load('nis_data.mat');
 velicina = size(nis_data,1);
 inputs = zeros(8, velicina);
-target = zeros(2, velicina);
-
+future_days = 5;
+valid_interval = (future_days+1):velicina;
+target = zeros(2, length(valid_interval));
 
 cena = nis_data(:, 1)';
 promena = nis_data(:, 2)';
@@ -16,8 +17,10 @@ ukupna_ponuda = nis_data(:,9)';
 ukupna_traznja = nis_data(:,10)';
 broj_transakcija = nis_data(:,9)';
 
-target(1, :) = [dnevna_max(1:end)];
-target(2, :) = [dnevna_min(1:end)];
+for i = valid_interval
+    target(1, i) = max(dnevna_max(i-future_days+1:i)); % maximum price for the next 5 days
+    target(2, i) = min(dnevna_min(i-future_days+1:i)); % minimum price for the next 5 days
+end
 
 % Simple 10-day moving average
 for i = 10:velicina
@@ -43,14 +46,14 @@ inputs(3, :) = momentum;
 % Stochastic D% je zapravo 3-dnevni pokretni prosek Stochastic K%
 stoK = zeros(1, velicina);
 stoD = zeros(1, velicina);
-for i = 14:velicina
-    stoK(i) = ((cena(i) - min(dnevna_min(i-13:i)))*100) / (max(dnevna_max(i-13:i)) - min(dnevna_min(i-13:i)));
+for i = 15:velicina
+    stoK(i-14) = ((cena(i) - min(dnevna_min(i-14:i)))*100) / (max(dnevna_max(i-14:i)) - min(dnevna_min(i-14:i)));
 end
 for i = 17:velicina
     stoD(i-16) = mean(stoK(i-2:i));
 end
-inputs(4, :) = stoK;
-inputs(5, :) = stoD;
+inputs(4,:) = stoK;
+inputs(5,:) = stoD;
 
 % CCI (Commodity Channel Index) %
 tp = (dnevna_max + dnevna_min + cena)/3;
@@ -93,6 +96,9 @@ end
 macd_hist = macd_line - signal_line;
 inputs(8, :) = macd_hist;
 
+predict_value = inputs(:,1:future_days);
+inputs = inputs(:, (future_days+1):(velicina-10));
+target = target(:, (future_days+1):(velicina-10));
 
 
 
